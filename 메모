@@ -1,8 +1,0 @@
-2.1 JavaScript 기본 문법
-변수와 변수 호이스팅 클로저 ㅇ
-객체와 배열 ㅇ
-함수 ㅇ
-프로토타입과 클래스 ㅇ
-2.2 JavaScript 비동기 처리
-콜백함수 콜백 지옥
-Promise, Async/await
