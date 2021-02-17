@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입</title>
+  </head>
+  <body>
+    <h1>정보를 입력하세요.</h1>
+    <form action="/customer" method="POST">
+      <table>
+        <tr>
+          <td><input type="text" name="name" placeholder="이름 : " /></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="age" placeholder="나이 :" /></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="sex" placeholder="성별 :" /></td>
+        </tr>
+      </table>
+      <input type="submit" value="전송하기" />
+    </form>
+  </body>
+</html>
