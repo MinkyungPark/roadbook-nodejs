@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Board API TEST</title>
+  </head>
+  <body>
+    <div id="result"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      const reqUrl = "http://localhost:8080/board/";
+      const apiKey = encodeURI("3CCHAAM-C0ZMC86-QB498ZA-QRDE88V/");
+      const params = "search?keyword=로드북";
+
+      const url = reqUrl + apiKey + params;
+      axios
+        .get(url)
+        .then((result) => {
+          document.querySelector("#result").textContent = JSON.stringify(
+            result.data
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    </script>
+  </body>
+</html>
