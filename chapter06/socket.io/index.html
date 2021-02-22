@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.io</title>
+  </head>
+  <body>
+    <div>socket.io 모듈로 웹 소켓을 알아봅시다.</div>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- io 제공 script -->
+    <script>
+      const socket = io.connect("http://localhost:8080", {
+        path: "/socket.io",
+        transports: ["websocket"],
+      });
+      socket.on("from server", function (data) {
+        // 이벤트 리스너, 여러개 할당 가능
+        console.log(data);
+        socket.emit("from client", "Message From Client"); // 이벤트 이름, 데이터
+      });
+    </script>
+  </body>
+</html>
