@@ -22,7 +22,7 @@ module.exports = (server) => {
         });
 
         socket.interval = setInterval(() => { // send 대신 emit으로 메세지를 보냄
-            socket.emit("from server", "Message From Serrver");
+            socket.emit("from server", "Message From Server");
         }, 3000);
     });
 };
