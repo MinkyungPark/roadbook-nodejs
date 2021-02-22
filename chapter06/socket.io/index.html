@@ -13,7 +13,7 @@
     <script>
       const socket = io.connect("http://localhost:8080", {
         path: "/socket.io",
-        transports: ["websocket"],
+        transports: ["websocket"], // polling 생략
       });
       socket.on("from server", function (data) {
         // 이벤트 리스너, 여러개 할당 가능

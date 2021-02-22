@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" src="socket.io/socket.io.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./index.css" />
+    <title>실시간 채팅</title>
+  </head>
+  <body>
+    <div id="login-area">
+      <div id="login-text"><h1>Username 등록</h1></div>
+      <div id="login-form-area">
+        <form id="login-form">
+          <input
+            id="user-name"
+            type="text"
+            placeholder="Username"
+            autocomplete="off"
+          />
+          <input id="login-submit" type="submit" value="Login" />
+        </form>
+      </div>
+    </div>
+    <div id="chat-area">
+      <div id="users-area">
+        <div id="online-users-text">
+          <h1>Online users:</h1>
+        </div>
+        <div id="online-users">
+          <ul id="users"></ul>
+        </div>
+      </div>
+
+      <div id="message-area">
+        <div id="display-message-area">
+          <ul id="messages"></ul>
+        </div>
+
+        <div id="message-form-area">
+          <form id="message-form">
+            <input
+              id="message"
+              type="text"
+              placeholder="Type your message..."
+              autocomplete="off"
+            />
+            <input id="message-submit" type="submit" value="Send" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+    const socket = io();
+
+    function updateUsers(list) {
+      for (let i = 0; i < list.length; i++) {
+        $("#users").append("<li><b>" + list[i] + "</b></li>");
+      }
+    }
+
+    $("#login-form").submit(function (event) {
+      event.preventDefault(); // 이벤트 취소
+      if ($("#user-name").val() == "" || $("#user-name").val() == " ") {
+        alert("Invalid username");
+      } else {
+        $username = $("#user-name").val(); // get username
+        $("#login-area").hide();
+        $("#chat-area").show();
+
+        $("#messages").html(""); // 오래된 메세지 삭제
+        socket.emit("has connected", $username);
+      }
+    });
+
+    $("#message-form").submit(function (event) {
+      event.preventDefault();
+      if ($("#message").val() == "" || $("message").val() == " ") {
+        alert("메세지를 입력해주세요.");
+      } else {
+        socket.emit("new message", {
+          username: $username,
+          message: $("#message").val(),
+        });
+        $("#message").val(""); // Clear text area
+      }
+    });
+
+    socket.on("has connected", function (data) {
+      $("#users").html(""); // 유저 disconnect
+      updateUsers(data.usersList);
+      $("#messages").append(
+        "<li><i><b>" + data.username + "</b> has connected </i></li>"
+      ); // 다른 사용자 접속 알림
+    });
+
+    socket.on("has disconnected", function (data) {
+      $("#users").html("");
+      updateUsers(data.usersList);
+      $("#messages").append(
+        "<li><i><b>" + data.username + "</b> has disconnected </i></li>"
+      );
+    });
+
+    socket.on("new message", function (data) {
+      $("#messages").append(
+        "<li><i><b>" + data.username + "</b>: " + data.message + "</i></li>"
+      );
+    });
+  </script>
+</html>
