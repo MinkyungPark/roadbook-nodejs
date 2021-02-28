@@ -28,6 +28,8 @@
     "mongoose": "^5.11.17",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "redis": "^3.0.2",
     "request": "^2.88.2",
     "sequelize": "^6.5.0",
