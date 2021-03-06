@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/posts/index.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<% if (login) { %>
+    <% var firstName = user.firstName %>
+    <p>Hello <span class="text-muted"><%= user.firstName %></span></p>
+<% } else { %>
+    <p>Hello <span class="text-muted">guest</span>. Would you like to <a style="text-decoration: none;" href="/user/register">register</a> or <a style="text-decoration: none;" href="/user/login">login</a>?</p>
+<% } %>
+
+<% if (posts) { %>
+<main>
+    <section class="news-feed">
+    <% posts.reverse().forEach(post => { %>
+        <article class="post">
+            <div class="post__header">
+                <img src="<%=post.creator.profile%>" class="avatar" style="width: auto; height: auto; max-width: 50px; max-height: 50px;">
+                <div class="post__info">
+                <a href="/user/<%= post.creator._id %>/profile"><%= post.creator.firstName + " " + post.creator.lastName %></a>
+                <span><a href="/post/<%= post._id %>">Created: <%= post.time.getDate() + "." + post.time.getMonth() + "." + post.time.getFullYear() + " - " + post.time.getHours() + ":" + post.time.getMinutes() %></a></span>
+                </div>        
+            </div>
+            <% if (post.image) { %>
+                <div style="max-width: 200px;">
+                    <img src="<%= post.image %>" style="max-height: 400px;">
+                </div>
+            <% } %>
+            <div class="post__engage">
+                <% if(user.liked_posts.find(o => o.equals(post._id))) { %>
+                    <p><%= post.likes %> Likes</p>
+                <% } else { %>
+                    <a href="/post/<%= post._id %>/like">Like <%= post.likes %></a>
+                <% } %>
+            </div>
+            <% if (post.content.length > 30) { %>
+                <%= post.content.substring(0, 30) %>
+            <% } else { %>
+                <%= post.content %>
+            <% } %>
+        </article>
+    <% }) %>
+    </section>
+
+</main>
+<% } %>
+
+<% include('../partials/footer') %>
