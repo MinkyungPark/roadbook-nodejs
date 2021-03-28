@@ -1,0 +1,6 @@
+FROM ubuntu:bionic
+RUN apt-get update
+RUN apt-get install -y git
+
+# 이미지 빌드 명령어
+$ docker build -t docker-git .
