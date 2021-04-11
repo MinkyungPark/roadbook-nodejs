@@ -1,0 +1,16 @@
+<%- include('../partials/header') %>
+
+<h1>Create A New Post</h1>
+<form action="/post/new" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="content">Post Content</label>
+        <input type="text" id="content" class="form-control" name="content" placeholder="Post Content" autocomplete="off" required>
+    </div>
+    <div class="form-group">
+        <label for="image">Post Image</label>
+        <input type="file" id="image" class="form-control-file" name="image" accept="image/*">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<%- include('../partials/footer') %>

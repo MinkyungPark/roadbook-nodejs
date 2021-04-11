@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+
+
+<div class="row">
+    <% users.forEach(function(person) { %> 
+        <div class="card col-sm-3">
+            <img class="card-img-top" src="/images/profile.png" alt="Profile">
+            <div class="card-body">
+                <h4 class="card-title"><%= person.firstName + " " + person.lastName %></h4>
+                <p class="card-text">Test</p>
+                <a class="btn btn-primary" href="/user/<%=person._id%>/profile">Profile</a>
+                <% if (!user._id.equals(person._id)) { %>
+                    <!-- Check if the person and the user are already friends -->
+                    <% if (user.friends.find(o => o.equals(person._id))) { %>
+                        <p>You and <%= person.firstName %> are friends</p>
+                    <!-- Check if the user has a request from that person -->
+                    <% } else if (user.friendRequests.find(o => o.equals(person._id))) { %> 
+                        <p><%= person.firstName %> has sent you a friend request. Go to your <a href="/user/<%=user._id%>/profile">profile</a> to accept it</p>
+                    <!-- Check if the person has a request from the user -->
+                    <% } else if (person.friendRequests.find(o => o.equals(user._id))) { %>
+                        <p>You already sent <%= person.firstName %> a friend request</p>
+                    <% } else { %>
+                        <a class="btn btn-primary" href="/user/<%=person._id%>/add">Add Friend</a>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    <% }); %>
+</div>
+
+<%- include('../partials/footer') %>

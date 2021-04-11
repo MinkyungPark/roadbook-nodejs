@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facebook Clone</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/global.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Facebook Clone</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <!-- <span class="navbar-toggler-icon"></span> -->
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">All Posts</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user/all">All Users</a>
+                </li>
+            </ul>
+        </div>
+        <div id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <% if (login) { %>
+                    <li class="nav-item active">
+                        <a href="/chat"><button type="button" class="btn btn-primary">Chat</button></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="/post/new"><button type="button" class="btn btn-primary">New Post</button></a>
+                    </li>
+                    <li class="nav-item active">
+                        <% if (user.friendRequests.length > 0) { %>
+                            <a href="/user/<%= user._id %>/profile"><button type="button" class="btn btn-primary">
+                                Requests <span class="badge badge-light"><%= user.friendRequests.length %></span>
+                            </button><a/>
+                        <% } else { %>
+                            <a href="/user/<%= user._id %>/profile"><button type="button" class="btn btn-primary">My Profile</button></a>
+                        <% } %>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="/user/logout"><button type="button" class="btn btn-primary">Logout</button></a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item active">
+                        <a href="/user/login"><button type="button" class="btn btn-primary">Login</button></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="/user/register"><button type="button" class="btn btn-primary">Register</button></a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <% if(error && error.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+        <% if(success && success.length > 0) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+        <% } %>

@@ -1,0 +1,154 @@
+<%- include('../partials/header') %>
+
+<script src="socket.io/socket.io.js"></script>
+
+<style>
+    .chat {
+        position: relative;
+        width: 80vw;
+        height: 80vh;
+        margin: 15px auto;
+    }
+    .users {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 25%;
+    }
+    .chat-window {
+        position: absolute;
+        top: 0;
+        left: 25%;
+        width: 75%;
+        height: 100%;
+        overflow: auto;
+    }
+    .user-heading {
+        text-align: center;
+        border: 1px solid #bbb;
+        border-radius: 5px;
+    }
+    .message {
+        border: 1px solid #bbb;
+        border-radius: 5px;
+        position: absolute;
+        top: 92%;
+        width: 85%;
+    }
+    .message input {
+        height: 35px;
+        width: 100%;
+    }
+    .send {
+        width: 15%;
+        height: 35px;
+        position: absolute;
+        top: 92%;
+        left: 85%
+    }
+    .send button {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+</div> <!-- close container div -->
+
+<% if (login) { %>
+    <% var firstName = user.firstName %>
+<% } %>
+
+<div class="chat">
+    <div class="users">
+        <% // if(userData.friends.length > 0) { %>
+            <ul id="users" class="list-group"></ul>
+        <% // } %>
+    </div>
+    <div id="chat-window" class="chat-window">
+        <h3 id="chat_header" class="user-heading">Chat Chat 🥳</h3>
+        <div id="output" class="output">
+
+        </div>
+        <form id="send-message">
+            <div class="message">
+                <input type="text" id="message" placholder="Message">
+            </div>
+            <div id="send" class="send">
+                <button class="btn btn-primary">Send</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div> <!-- open container div so it gets closed in the footer file -->
+
+<script>
+    // const socket = io.connect("http://localhost:3000");
+    const socket = io("/chat");
+    const username = "<%= firstName %>";
+
+    const message = document.getElementById("message");
+    const button = document.getElementById("send");
+    const output = document.getElementById("output");
+    const users = document.getElementById("users");
+    const chat = document.getElementById("chat-window");
+    const form = document.getElementById("send-message");
+    const chat_header = document.getElementById("chat_header");
+
+    const sendTo = "";
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if(message.value) {
+            socket.emit("chat", {
+                message: message.value,
+                name: username,
+                to: chat_header.innerHTML
+            })
+            message.value = "";
+        }
+    })
+
+    socket.on("chat", data => {
+        console.log(data)
+        if (data.to === "Global Chat") {
+            if (data.name === username) {
+                output.innerHTML += `<p><strong>You</strong> - ${data.message}</p>`
+            } else {
+                output.innerHTML += `<p><strong>${data.name}</strong> - ${data.message}</p>`
+            }
+        } else if (data.to) {
+            if (data.name === username) {
+                output.innerHTML += `<p>Private message from <strong>you</strong> to <strong>${data.to}</strong> - ${data.message}</p>`
+            } else {
+                output.innerHTML += `<p>Private message from <strong>${data.name}</strong> - ${data.message}</p>`
+            }
+        }
+        chat.scrollTop = chat.scrollHeight;
+    })
+
+    socket.on("newUser", data => {
+        socket.emit("newUser", { name: username, socketID: data.socketID })
+    })
+
+    socket.on("updateUserList", data => {
+        console.log(data)
+        let string = `<li class="list-group-item"><button style="border: none; background: none; cursor: pointer; outline: none" onclick='setUser("Global Chat")'>Global Chat</button></li>`;
+        for(var i = 0; i < data.length; i++) {
+            if (data[i] !== username) {
+                string += `<li class="list-group-item"><button style="border: none; background: none; cursor: pointer; outline: none;" onclick='setUser(${JSON.stringify(data[i])})'>${data[i]}</button></li>`;
+            }
+        }
+        users.innerHTML = string;
+    })
+
+    function setUser(name) {
+        if (username !== name) {
+            chat_header.innerHTML = name;
+            // output.innerHTML = "";
+        }
+    }
+</script>
+
+<%- include('../partials/footer') %>

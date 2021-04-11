@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Facebook Clone</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.5/paper-core.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/global.css">
+    <link rel="stylesheet" href="/users/login.css">
+</head>
+<body>
+
+    <style>
+        #profile-signup {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+            cursor: pointer;
+        }    
+
+        #profile-label-signup {
+            cursor: pointer;
+        }
+
+        #profile-signup + #profile-label-signup {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: white;
+            background-color: black;
+            display: inline-block;
+        }
+
+        #profile-signup:focus + #profile-label-signup,
+        #profile-signup + #profile-label-signup:hover {
+            background: red;
+        }
+    </style>
+
+    <!-- <header class="header">
+
+        <div class="logo-box">
+            <img src="/images/logo.png" alt="Logo" class="logo">
+        </div>
+        
+        <div class="text-box">
+            <h1 class="heading-primary">
+                <span class="heading-primary-main">Facebook Clone</span>
+                <span class="heading-primary-sub">made in node.js</span>
+            </h1>
+        </div>
+
+    </header>
+
+    <h1>Login</h1>
+    <form action="/user/login" method="POST">
+        <div class="form-group">
+            <label for="emailInput">Email address</label>
+            <input name="username" type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
+        </div>
+        <p>Don't have an account? <a style="text-decoration: none;" href="/user/register">Register</a></p>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form> -->
+
+    <div id="back">
+        <canvas id="canvas" class="canvas-back"></canvas>
+        <div class="backRight">    
+        </div>
+        <div class="backLeft">
+        </div>
+      </div>
+      
+      <div id="slideBox">
+        <div class="topLayer">
+          <div class="left">
+            <div class="content">
+              <h2>Sign Up</h2>
+              <form id="form-signup" method="POST" action="/user/register" enctype="multipart/form-data">
+                <div class="form-element form-stack">
+                  <label for="email" class="form-label">Email</label>
+                  <input id="email" type="email" name="username">
+                </div>
+                <div class="form-element form-stack">
+                  <label for="firstname-signup" class="form-label">First Name</label>
+                  <input id="firstname-signup" type="text" name="firstname">
+                </div>
+                <div class="form-element form-stack">
+                    <label for="lastname-signup" class="form-label">Last Name</label>
+                    <input id="lastname-signup" type="text" name="lastname">
+                </div>
+                <div class="form-element form-stack">
+                    <label for="profile-signup" id="profile-label-signup"><span>Profile Picture</span></label>
+                    <input type="file" id="profile-signup" name="image" accept="image/*">
+                </div>
+                <div class="form-element form-stack">
+                  <label for="password-signup" class="form-label">Password</label>
+                  <input id="password-signup" type="password" name="password">
+                </div>
+                <div class="form-element form-submit">
+                  <button id="signUp" class="signup" type="submit" name="signup">Sign up</button>
+                  <button id="goLeft" class="signup off">Log In</button> 
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="right">
+            <div class="content">
+              <h2>Login</h2>
+              <form id="form-login" method="POST" action="/user/login">
+                <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                <div class="form-element form-stack">
+                  <label for="username-login" class="form-label">Email</label>
+                  <input id="username-login" type="email" name="username">
+                </div>
+                <div class="form-element form-stack">
+                  <label for="password-login" class="form-label">Password</label>
+                  <input id="password-login" type="password" name="password">
+                </div>
+                <div class="form-element form-submit">
+                  <button id="logIn" class="login" type="submit" name="login">Log In</button>
+                  <button id="goRight" class="login off" name="signup">Sign Up</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <script>
+        // If user picks a profile picture he can see the name of the file
+        let fileInput = document.querySelector( '#profile-signup' );
+        let label	 = document.querySelector("#profile-label-signup");
+        let labelVal = label.innerHTML;
+
+        fileInput.addEventListener( 'change', function( e )
+        {
+            let fileName = '';
+            if( fileInput.files && fileInput.files.length > 1 )
+                fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', fileInput.files.length );
+            else
+                fileName = e.target.value.split( '\\' ).pop();
+
+            if( fileName )
+                label.querySelector( 'span' ).innerHTML = fileName;
+            else
+                label.innerHTML = labelVal;
+        });
+
+    /* ====================== *
+    *  Toggle Between        *
+    *  Sign Up / Login       *
+    * ====================== */
+    $(document).ready(function(){
+    $('#goRight').on('click', function(e){
+        $('#slideBox').animate({
+            'marginLeft' : '0'
+            });
+            $('.topLayer').animate({
+                'marginLeft' : '100%'
+            });
+            e.preventDefault();
+        });
+        $('#goLeft').on('click', function(){
+            if (window.innerWidth > 769){
+            $('#slideBox').animate({
+                'marginLeft' : '50%'
+            });
+            }
+            else {
+            $('#slideBox').animate({
+                'marginLeft' : '20%'
+            });
+            }
+            $('.topLayer').animate({
+            'marginLeft': '0'
+            });
+        });
+        });
+
+        /* ====================== *
+        *  Initiate Canvas       *
+        * ====================== */
+        paper.install(window);
+        paper.setup(document.getElementById("canvas"));
+
+        // Paper JS Variables
+        var canvasWidth, 
+            canvasHeight,
+            canvasMiddleX,
+            canvasMiddleY;
+
+        var shapeGroup = new Group();
+
+        var positionArray = [];
+
+        function getCanvasBounds() {
+        // Get current canvas size
+        canvasWidth = view.size.width;
+        canvasHeight = view.size.height;
+        canvasMiddleX = canvasWidth / 2;
+        canvasMiddleY = canvasHeight / 2;
+        // Set path position
+        var position1 = {
+            x: (canvasMiddleX / 2) + 100,
+            y: 100, 
+        };
+
+        var position2 = {
+            x: 200,
+            y: canvasMiddleY, 
+        };
+
+        var position3 = {
+            x: (canvasMiddleX - 50) + (canvasMiddleX / 2),
+            y: 150, 
+        };
+
+        var position4 = {
+            x: 0,
+            y: canvasMiddleY + 100, 
+        };
+
+        var position5 = {
+            x: canvasWidth - 130,
+            y: canvasHeight - 75, 
+        };
+
+        var position6 = {
+            x: canvasMiddleX + 80,
+            y: canvasHeight - 50, 
+        };
+        
+        var position7 = {
+            x: canvasWidth + 60,
+            y: canvasMiddleY - 50, 
+        };
+        
+        var position8 = {
+            x: canvasMiddleX + 100,
+            y: canvasMiddleY + 100, 
+        };
+
+        positionArray = [position3, position2, position5, position4, position1, position6, position7, position8];
+        };
+
+
+        /* ====================== *
+        * Create Shapes          *
+        * ====================== */
+        function initializeShapes() {
+        // Get Canvas Bounds
+        getCanvasBounds();
+
+        var shapePathData = [
+            'M231,352l445-156L600,0L452,54L331,3L0,48L231,352', 
+            'M0,0l64,219L29,343l535,30L478,37l-133,4L0,0z', 
+            'M0,65l16,138l96,107l270-2L470,0L337,4L0,65z',
+            'M333,0L0,94l64,219L29,437l570-151l-196-42L333,0',
+            'M331.9,3.6l-331,45l231,304l445-156l-76-196l-148,54L331.9,3.6z',
+            'M389,352l92-113l195-43l0,0l0,0L445,48l-80,1L122.7,0L0,275.2L162,297L389,352',
+            'M 50 100 L 300 150 L 550 50 L 750 300 L 500 250 L 300 450 L 50 100',
+            'M 700 350 L 500 350 L 700 500 L 400 400 L 200 450 L 250 350 L 100 300 L 150 50 L 350 100 L 250 150 L 450 150 L 400 50 L 550 150 L 350 250 L 650 150 L 650 50 L 700 150 L 600 250 L 750 250 L 650 300 L 700 350 '
+        ];
+
+        for (var i = 0; i <= shapePathData.length; i++) {
+            // Create shape
+            var headerShape = new Path({
+            strokeColor: 'rgba(255, 255, 255, 0.5)',
+            strokeWidth: 2,
+            parent: shapeGroup,
+            });
+            // Set path data
+            headerShape.pathData = shapePathData[i];
+            headerShape.scale(2);
+            // Set path position
+            headerShape.position = positionArray[i];
+        }
+        };
+
+        initializeShapes();
+
+        /* ====================== *
+        * Animation              *
+        * ====================== */
+        view.onFrame = function paperOnFrame(event) {
+        if (event.count % 4 === 0) {
+            // Slows down frame rate
+            for (var i = 0; i < shapeGroup.children.length; i++) {
+            if (i % 2 === 0) {
+                shapeGroup.children[i].rotate(-0.1);
+            } else {
+                shapeGroup.children[i].rotate(0.1);
+            }
+            }
+        }
+        };
+
+        view.onResize = function paperOnResize() {
+        getCanvasBounds();
+
+        for (var i = 0; i < shapeGroup.children.length; i++) {
+            shapeGroup.children[i].position = positionArray[i];
+        }
+
+        if (canvasWidth < 700) {
+            shapeGroup.children[3].opacity = 0;
+            shapeGroup.children[2].opacity = 0;
+            shapeGroup.children[5].opacity = 0;
+        } else {
+            shapeGroup.children[3].opacity = 1;
+            shapeGroup.children[2].opacity = 1;
+            shapeGroup.children[5].opacity = 1;
+        }
+        };  
+    </script>
+</body>

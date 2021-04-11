@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/posts/index.css">
+
+<div class="post" style="border: none;">
+        <div class="post__header">
+            <img src="<%=post.creator.profile%>" class="avatar" style="width: auto; height: auto; max-width: 50px; max-height: 50px;">
+            <div class="post__info">
+            <a href="/user/<%= post.creator._id %>/profile"><%= post.creator.firstName + " " + post.creator.lastName %></a>
+            <span><a href="/post/<%= post._id %>">Created: <%= post.time.getDate() + "." + post.time.getMonth() + "." + post.time.getFullYear() + " - " + post.time.getHours() + ":" + post.time.getMinutes() %></a></span>
+            </div>        
+        </div>
+    <% if (post.image) { %>
+        <div>
+            <img src="<%= post.image %>" style="max-height: 500px;">
+        </div>
+    <% } %>
+    <p><%= post.content %></p>
+    
+    <% post.comments.forEach(comment => { %>
+        <div class="post-comment" style="border: 1px solid lightgrey; margin: 2px;">
+            <p><strong><%= comment.creator.firstName + " " + comment.creator.lastName %></strong> - <%= comment.content %></p>
+            <% if(user.liked_comments.find(o => o.equals(comment._id))) { %>
+                <p><%= comment.likes %> Likes</p>
+            <% } else { %>
+                <a href="/post/<%= post._id %>/comments/<%= comment._id %>/like"><%= comment.likes %> Likes</a>
+            <% } %>
+        </div>
+    <% }) %>
+    <form action="/post/<%=post._id%>/comments/new" method="POST">
+        <div class="form-group row">
+            <label for="CommentContent" class="col-form-label col-sm-2" >New Comment</label>
+            <input type="text" name="content" class="form-control" id="CommentContent" style="width: 500px;" autocomplete="off">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>
