@@ -13,16 +13,16 @@ app.use(express.urlencoded({ extended: true }));
 
 /* 라우팅 설정 */
 app.get('/airkorea', async (req, res) => {
-    const serviceKey = "";
-    const airUrl = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
+    const serviceKey = "자신의서비스키";
+    const airUrl = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
 
-    let parmas = encodeURI('ServiceKey') + '=' + serviceKey;
+    let parmas = encodeURI('serviceKey') + '=' + serviceKey;
     parmas += '&' + encodeURI('numOfRows') + '=' + encodeURI('1');
     parmas += '&' + encodeURI('pageNo') + '=' + encodeURI('1');
     parmas += '&' + encodeURI('dataTerm') + '=' + encodeURI('DAILY');
-    parmas += '&' + encodeURI('ver') + '=' + encodeURI('1.3');
+    parmas += '&' + encodeURI('ver') + '=' + encodeURI('1.0');
     parmas += '&' + encodeURI('stationName') + '=' + encodeURI('마포구');
-    parmas += '&' + encodeURI('_returnType') + '=' + encodeURI('json')
+    parmas += '&' + encodeURI('returnType') + '=' + encodeURI('json')
 
     const url = airUrl + parmas;
 
