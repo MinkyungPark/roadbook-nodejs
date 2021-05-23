@@ -20,7 +20,7 @@ app.get('/airkorea', async (req, res) => {
     parmas += '&' + encodeURI('numOfRows') + '=' + encodeURI('1');
     parmas += '&' + encodeURI('pageNo') + '=' + encodeURI('1');
     parmas += '&' + encodeURI('dataTerm') + '=' + encodeURI('DAILY');
-    parmas += '&' + encodeURI('ver') + '=' + encodeURI('1.0');
+    parmas += '&' + encodeURI('ver') + '=' + encodeURI('1.3');
     parmas += '&' + encodeURI('stationName') + '=' + encodeURI('마포구');
     parmas += '&' + encodeURI('returnType') + '=' + encodeURI('json')
 
