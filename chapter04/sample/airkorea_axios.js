@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 /* 라우팅 설정 */
 app.get('/airkorea', async (req, res) => {
-    const serviceKey = "자신의서비스키";
+    const serviceKey = "일반인증키(Encoding)";
     const airUrl = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?";
 
     let parmas = encodeURI('serviceKey') + '=' + serviceKey;
