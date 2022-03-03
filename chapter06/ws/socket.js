@@ -1,4 +1,4 @@
-const WebSocket = require('ws');
+const WebSocket = require('ws'); // npm install -g ws@7.4.3
 
 module.exports = (server) => {
     const wss = new WebSocket.Server({ server });
