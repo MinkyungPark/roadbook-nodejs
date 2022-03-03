@@ -1,3 +1,6 @@
+/* redis version 3.1.2 */
+/* npm install redis@^3.1.2 */
+
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, "../../.env") }); const morgan = require('morgan');
