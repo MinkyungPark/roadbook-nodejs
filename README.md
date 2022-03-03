@@ -1,3 +1,6 @@
+### ⭐️ 실습 진행시 모듈 버전은 package.json에 있는 버전과 맞춰주세요!
+### ⭐️ 또는 package.json을 다운로드 받고 **$ npm install** 명령어로 package.json에 있는 모듈을 모두 설치해주세요!
+
 ```
 1장. Node.js 첫걸음
 1.1 Node.js 첫걸음
