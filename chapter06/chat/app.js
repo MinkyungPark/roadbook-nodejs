@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
         io.emit("has connected", { username: username, usersList: users });
     });
 
-    socket.on("has disconnected", () => { // 이벤트 : has disconnected
+    socket.on("disconnect", () => { // 이벤트 : has disconnected
         users.splice(users.indexOf(name), 1);
         io.emit("has disconnected", { username: name, usersList: users });
     })
