@@ -1,4 +1,4 @@
-### ⭐️ 실습 진행시 모듈 버전은 package.json에 있는 버전과 맞춰주세요!
+### ⭐️ 실습 진행시 모듈 버전은 package.json에 있는 버전과 맞춰주세요! (단 Redis 모듈은 v3 버전과 v4버전 코드를 따로 업데이트 하였습니다. chapter04/ 참고)
 ### ⭐️ 또는 package.json을 다운로드 받고 **$ npm install** 명령어로 package.json에 있는 모듈을 모두 설치해주세요!
 
 ```
