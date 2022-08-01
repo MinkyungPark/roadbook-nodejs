@@ -29,10 +29,11 @@ app.get('/airkorea/detail', async (req, res) => {
     try {
         const result = await axios.get(url);
         const airItem = {
-            "location": result.data.ArpltnInforInqireSvcVo["stationName"], // 지역
-            "time": result.data.list[0]['dataTime'], // 시간대
-            "pm10": result.data.list[0]['pm10Value'], // pm10 수치
-            "pm25": result.data.list[0]['pm25Value'] // pm25 수치
+            //"location": result.data.ArpltnInforInqireSvcVo['stationName'], // stationName 을 응답 메시지로 보내주지 않습니다. (최근 변경)
+            location: '마포구', //locaition을 직접 명시
+            time: result.data.response.body.items[0]['dataTime'], // 시간대
+            pm10: result.data.response.body.items[0]['pm10Value'], // pm10 수치
+            pm25: result.data.response.body.items[0]['pm25Value'], // pm25 수치
         }
         const badAir = [];
         // pm10은 미세먼지 수치
