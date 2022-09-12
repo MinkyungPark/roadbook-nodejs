@@ -36,9 +36,9 @@ app.get('/naver/news', (req, res) => {
             }
 
             for (let i = 0; i < newsItem.length; i++) {
-                newsJson.title.push(newsItem[i].title.replace(/(<([^>]+)>)|&quot;/ig, ""));
+                newsJson.title.push(newsItem[i].title.replace(/(<([^>]+)>)|&quot;|&apos;/ig, ""));
                 newsJson.link.push(newsItem[i].link);
-                newsJson.description.push(newsItem[i].description.replace(/(<([^>]+)>)|&quot;/ig, ""));
+                newsJson.description.push(newsItem[i].description.replace(/(<([^>]+)>)|&quot;|&apos;/ig, ""));
                 newsJson.pubDate.push(newsItem[i].pubDate);
             }
             res.json(newsJson);
