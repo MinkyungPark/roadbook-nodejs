@@ -59,7 +59,7 @@ app.put('/board/:id', (req, res) => {
     // 리스트에 새로운 요소 추가
     const board = {
         "id": +req.params.id,
-        "user_id": req.params.user_id,
+        "user_id": req.body.user_id,
         "date": new Date(),
         "title": req.body.title,
         "content": req.body.content
