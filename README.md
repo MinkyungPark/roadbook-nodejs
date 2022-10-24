@@ -1,3 +1,7 @@
+### [Node.js로 서버만들기](https://search.shopping.naver.com/book/catalog/32480599296?cat_id=50010881&frm=PBOKPRO&query=nodejs%EB%A1%9C+%EC%84%9C%EB%B2%84%EB%A7%8C%EB%93%A4%EA%B8%B0&NaPm=ct%3Dl9msgzrc%7Cci%3D94bf3b23bb92a5c57472e29ca10d815cd4226eaa%7Ctr%3Dboknx%7Csn%3D95694%7Chk%3Ddb4f5ce6100001517584eb86299dcf2847ebe22a) [로드북]의 Repository 입니다.
+
+<br>
+  
 ### ⭐️ 실습 진행시 모듈 버전은 package.json에 있는 버전과 맞춰주세요! (단 Redis 모듈은 v3 버전과 v4버전 코드를 따로 업데이트 하였습니다. chapter04/ 참고)
 ### ⭐️ 또는 package.json을 다운로드 받고 **$ npm install** 명령어로 package.json에 있는 모듈을 모두 설치해주세요!
 
