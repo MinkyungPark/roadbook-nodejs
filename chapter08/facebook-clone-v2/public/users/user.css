@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    vertical-align: middle;
+    position: relative;
+    transition: 0.2s ease-in-out;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.Profile {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.cover {
+    height: 250px;
+    background-size: cover;
+    background-position: 0 center;
+}
+
+.midBar {
+    background-color: #fefffe;
+    height: 50px;
+}
+.midBar .personImg {
+    background-position: center;
+    width: 130px;
+    height: 120px;
+    background-size: 130px;
+    border: 3px solid #fefffe;
+    top: -100px;
+    left: 5%;
+}
+.midBar .personImg .name {
+    left: 120%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.midBar .personImg .name h2,
+.midBar .personImg .name h4 {
+    margin: 0;
+    /* color: #FEFFFE; */
+    color: #000;
+    letter-spacing: 1px;
+}
+.midBar .personImg .name h4 {
+    font-weight: normal;
+}
+
+.bottomBar {
+    background-color: #fefffe;
+    width: 40%;
+    padding: 20px;
+    margin-top: 10px;
+}
+.bottomBar p {
+    font-size: 13px;
+    color: #434347;
+}
+.bottomBar p .profileTitle {
+    font-size: 20px;
+}
+.bottomBar i {
+    width: 20px;
+}
+
+.mainBar {
+    width: 60%;
+    position: absolute;
+    top: 0;
+    left: 40%;
+}
+
+.post {
+    border: 1px solid lightgrey;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    background-size: 50px;
+    background-position: center;
+}
+
+.post-image img {
+    width: auto;
+    height: auto;
+    max-width: 550px;
+    max-height: 350px;
+}
+
+.request {
+    border: 1px solid black;
+}
+
+@media screen and (max-width: 800px) {
+    .cover {
+        height: 220px;
+    }
+
+    .midBar {
+        height: 120px;
+    }
+    .midBar .personImg {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 150px;
+        background-size: 150px;
+    }
+    .midBar .personImg .name {
+        left: initial;
+        top: 130%;
+    }
+    .midBar .personImg .name h2,
+    .midBar .personImg .name h4 {
+        color: #434347;
+        text-align: center;
+    }
+
+    .bottomBar .mainBar {
+        margin-top: initial;
+        width: 40%;
+    }
+    .bottomBar p {
+        border-top: 2px solid #dddddf;
+        padding: 20px;
+        font-size: 15px;
+    }
+}

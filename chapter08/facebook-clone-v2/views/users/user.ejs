@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/users/user.css">
+<link rel="stylesheet" href="/posts/index.css">
+    <div class="Profile">
+        <div class="cover" style="background-image: url('https://pixy.org/download/69052/');"></div>
+        <div class="midBar">
+            <div class="personImg" style="background-image: url('<%= userData.profile %>');">
+                <div class="name">
+                    <h2 class="user-name"><%= userData.firstName + " " + userData.lastName %></h2>
+                </div>
+            </div>
+        </div>
+        <div style="position: relative;">
+            <div class="bottomBar">
+                <p>
+                    <% if (userData._id.equals(user._id)) { %>
+                        <% if (userData.friendRequests.length > 0) { %>
+                            <% userData.friendRequests.forEach(request => { %>
+                                <div class="request">
+                                    <h5>Request from <a href="/user/<%=request._id%>/profile"><%= request.firstName + " " + request.lastName %></a></h5>
+                                    <a href="/user/<%=request._id%>/accept">Accept</a>
+                                    <a href="/user/<%=request._id%>/decline">Decline</a>
+                                    <br />
+                                </div>
+                            <% }) %>
+                        <% } %>
+                    <% } %>
+                    <span class="profileTitle"><%= userData.firstName %>'s friends</span>
+                    <hr />
+                    <% userData.friends.forEach(friend => { %>
+                        <span><a href="/user/<%= friend._id %>/profile"><%= friend.firstName + " " + friend.lastName %></a></span>
+                        <br />
+                    <% }) %>
+                </p>
+            </div>
+            <div class="mainBar">
+                <% userData.posts.forEach(post => { %>
+                    <div class="post">
+                        <div class="post__header">
+                            <img src="<%=post.creator.profile%>" class="avatar" style="width: auto; height: auto; max-width: 50px; max-height: 50px;">
+                            <div class="post__info">
+                            <a href="/user/<%= post.creator._id %>/profile"><%= post.creator.firstName + " " + post.creator.lastName %></a>
+                            <span><a href="/post/<%= post._id %>">Created: <%= post.time.getDate() + "." + post.time.getMonth() + "." + post.time.getFullYear() + " - " + post.time.getHours() + ":" + post.time.getMinutes() %></a></span>
+                            </div>        
+                        </div>
+                        <div class="content">
+                            <% if (post.image) { %>
+                                <div class="post-image">
+                                    <img src="<%= post.image %>">
+                                </div>
+                            <% } %>
+                            <% if(user.liked_posts.find(o => o.equals(post._id))) { %>
+                                <p><%= post.likes %> Likes</p>
+                            <% } else { %>
+                                <a href="/post/<%= post._id %>/like">Like <%= post.likes %></a>
+                            <% } %>
+                            <div class="post-content">
+                                <p><%= post.content %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
